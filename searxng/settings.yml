@@ -1,0 +1,22 @@
+# SearXNG settings
+
+use_default_settings: true
+
+general:
+  debug: false
+  instance_name: "SearXNG"
+
+search:
+  safe_search: 0
+  autocomplete: 'google'
+  formats:
+    - json
+    - html
+
+server:
+  bind_address: "127.0.0.1"
+  port: 8081
+  base_url: "http://localhost:8081/"
+  secret_key: "ai"
+  limiter: false
+  image_proxy: true
