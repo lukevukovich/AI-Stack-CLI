@@ -35,7 +35,7 @@ for /f "usebackq tokens=1,* delims==" %%A in (".env") do (
 REM ==================================================
 REM Required vars
 REM ==================================================
-set "REQUIRED_VARS=DOCKER_DESKTOP_EXE OPENWEBUI_EXE SEARX_SETTINGS_YML"
+set "REQUIRED_VARS=OPENWEBUI_EXE SEARX_SETTINGS_YML"
 for %%V in (%REQUIRED_VARS%) do (
   if not defined %%V (
     echo [ERROR] Missing required env var: %%V
@@ -203,7 +203,7 @@ if not errorlevel 1 (
 )
 
 call :Log "[WARN] Docker not responding - starting Docker Desktop..."
-start "" %MINFLAG% "%DOCKER_DESKTOP_EXE%"
+docker desktop start >nul 2>&1
 
 call :Log "[INFO] Waiting for Docker to become ready (timeout=%DOCKER_TIMEOUT%s)..."
 call :WaitForDocker %DOCKER_TIMEOUT%
@@ -381,9 +381,7 @@ call :Log "[OK] Process cleanup done."
 
 if "%CLOSE_DOCKER_ON_QUIT%"=="1" (
   call :Log "[STOP] Closing Docker Desktop (optional)..."
-  taskkill /IM "Docker Desktop.exe" /F >nul 2>&1
-  taskkill /IM "com.docker.backend.exe" /F >nul 2>&1
-  taskkill /IM "com.docker.proxy.exe" /F >nul 2>&1
+  docker desktop stop >nul 2>&1
   call :Log "[OK] Docker Desktop stop issued (best effort)."
 )
 exit /b 0
